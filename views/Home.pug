@@ -1,0 +1,29 @@
+
+html(lang="en")
+
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Dynamic Image Cards
+    style 
+      include ../static/Home.css
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js') 
+    script 
+      include ../static/Home.js
+  body
+    audio(id="newImageSound" src="../static/alert.wav" preload="auto")
+    nav.nav
+      ul
+        li
+          a(href="/Home.html") 
+            img(src="../static/Homeicon.png", alt="Loading")
+        li
+          a(href="/Unread.html") Unread
+          span#resolvedCount 
+        li
+          a(href="/Resolve.html") Resolved 
+          span#resolvedCount 
+        li
+          a(href="") HelplineNo.
+    #overlay
+    #cardContainer

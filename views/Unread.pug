@@ -1,0 +1,29 @@
+doctype html
+html(lang="en")
+
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Home
+    style 
+      include ../static/Unread.css
+    script
+      include ../static/Unread.js
+  body
+    nav.nav
+      ul
+        li
+        a(href="/Home.html") 
+         img(src="../static/Homeicon.png", alt="Loading")
+        li
+          a(href="/Unread.html") Unread
+          span#unreadCount 
+        li
+          a(href="/Resolve.html") Resolved 
+          span#resolveCount 
+        li
+          a(href="") HelplineNo.
+
+    #imageContainer
+    
+    
