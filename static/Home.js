@@ -1,5 +1,6 @@
 
 
+
 const socket = io();
 
 socket.on('update', (data) => {
@@ -7,50 +8,58 @@ socket.on('update', (data) => {
   playNewImageSound();
   playGlowAnimation();
   fetchAndDisplayImages();
+  updateResolvedCountOnHome()
+  
+  updateUnreadCountonHome();
 
 });
 
 
 
-// Function to fetch and display new images
 function fetchAndDisplayImages() {
+  // Fetch images from the server
   fetch('http://127.0.0.1:3000/images')
     .then(response => response.json())
     .then(data => {
       const cardContainer = document.getElementById('cardContainer');
       cardContainer.innerHTML = ''; // Clear existing cards
 
-      data.images.forEach(imageUrl => {
+      // Iterate through images in reverse order to display the latest one at the top
+      for (let i = data.images.length - 1; i >= 0; i--) {
+        const imageUrl = data.images[i];
+
         const card = document.createElement('div');
         card.classList.add('card');
 
+        // Create a text element for the card
         const newText = document.createElement('div');
         newText.classList.add('Card-text');
         card.appendChild(newText);
+
+        // fire saftey
         let imageName = '';
-        for (let i = 0; i < imageUrl.length; i++) {
-          if (imageUrl[i] === '%') {
-            i=i+3; 
-            while (i < imageUrl.length && imageUrl[i] !== '_') {
-              imageName += imageUrl[i];
-              i++;
+        for (let j = 0; j < imageUrl.length; j++) {
+          if (imageUrl[j] === '%') {
+            j = j + 3;
+            while (j < imageUrl.length && imageUrl[j] !== '_') {
+              imageName += imageUrl[j];
+              j++;
             }
-            break; 
+            break;
           }
         }
-       imageName= imageName.replaceAll("%20",'_');
-        newText.textContent=imageName;
-        console.log("image name",imageName);
-        
+        imageName = imageName.replaceAll('%20', ' ');
+        newText.textContent = imageName;
 
+        // Create an image element for the card
         const newImage = document.createElement('img');
         newImage.src = imageUrl;
         newImage.alt = 'Card Image';
 
+        // Append text and image elements to the card, then append the card to the container
         card.appendChild(newImage);
         cardContainer.appendChild(card);
-      });
-
+      }
     })
     .catch(error => console.error('Error fetching images:', error));
 }
@@ -81,3 +90,56 @@ function playNewImageSound() {
 
 // Fetch and display images initially
 fetchAndDisplayImages();
+
+//Resolve count
+function updateResolvedCountOnHome() {
+  fetch('http://127.0.0.1:3000/Resolvedata')
+    .then(response => response.json())
+    .then(data => {
+      const resolvedCount = data.length;
+      const resolvedCountElement = document.getElementById('resolvedCount');
+      resolvedCountElement.textContent = `(${resolvedCount || 0})`;
+    })
+    .catch(error => console.error('Error fetching resolved count:', error));
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  updateResolvedCountOnHome();
+});
+function updateUnreadCountonHome() {
+  fetch('http://127.0.0.1:3000/images')
+    .then(response => response.json())
+    .then(data => {
+      console.log('API Response:', data);
+
+      if (data && data.images) {
+        const unreadcount = data.images.length;
+        console.log('Unread Count:', unreadcount);
+
+        const unreadcountElement = document.getElementById('unreadcount');
+        console.log('Unread Count Element:', unreadcountElement);
+
+        if (unreadcountElement) {
+          unreadcountElement.textContent = `(${unreadcount || 0})`;
+        } else {
+          console.error('Element with ID "unreadcount" not found.');
+        }
+      } else {
+        console.error('Invalid API response format. Ensure the API returns an object with an "images" property.');
+      }
+    })
+    .catch(error => console.error('Error fetching unread count:', error));
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  updateUnreadCountonHome();
+});
+
+
+
+
+
+
+
+
+

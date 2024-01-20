@@ -1,6 +1,9 @@
 function updateResolvedCount(count) {
-  const resolvedCountElement = document.getElementById('unreadCount');
-  resolvedCountElement.textContent = `(${count})`;
+  const unreadcountElement = document.getElementById('unreadcount');
+  unreadcountElement.textContent = `(${count})`;
+  localStorage.setItem('unreadcount', count);
+  
+  
 }
 function fetchAndDisplayImage() {
   let cardCount = 0;

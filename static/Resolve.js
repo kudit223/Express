@@ -2,6 +2,7 @@
 function updateResolvedCount(count) {
     const resolvedCountElement = document.getElementById('resolvedCount');
     resolvedCountElement.textContent = `(${count})`;
+    localStorage.setItem('resolvedCount', count);
   }
 function fetchAndDisplayAllData() {
     let cardCount = 0;

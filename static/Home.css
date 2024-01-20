@@ -1,6 +1,13 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box; /* Include padding and border in box model */
+    
+}
+
+ body {
+    height: 100%;
+    background-color: black
 }
 
 .nav {
@@ -8,22 +15,26 @@
     position: fixed;
     width: 100%;
     top: 0;
-    z-index: 1;
+    z-index: 2; /* Increased z-index for the navigation bar */
+    border-bottom: 2px solid #ccc; /* Add a border at the bottom of the header section */
 }
 
 .nav ul {
     display: flex;
     list-style: none;
-    justify-content: space-evenly;
-    height: 40px;
+    justify-content:space-around;
+    height: 50px;
     width: 100vw;
     align-items: center;
-    
 }
+
 .nav li {
     color: white;
+    margin-right: 10px; /* Add margin to create space between navigation items */
+}
 
-    
+.nav li:last-child {
+    margin-right: 0; /* Remove margin for the last navigation item to avoid extra space */
 }
 
 .nav li:hover {
@@ -35,17 +46,22 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     margin-top: 60px;
     /* Adjust margin-top based on the height of your navigation bar */
-    background-color: bisque;
+    
+
 }
 
 #cardContainer {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    margin: 0 60px; /* Add margin to the left and right of the card container */
+    max-width: 1200px; /* Set a max-width for better responsiveness */
+    width: 100%; /* Full width of the viewport */
+    padding: 0 20px; /* Add padding to the left and right of the card container */
+    border: 2px solid #ccc; /* Add borders to the card container */
+    margin: 10px; /* Add margin for better visual separation */
 }
 
 .card {
@@ -56,55 +72,101 @@ body {
     box-sizing: border-box;
     width: calc(25% - 20px); /* Set the width of each card */
     transition: transform 0.3s;
+    box-shadow: 5px 5px 10px gray ;
+    /* box-shadow: 5px 5px 10px gray inset; */
+    
+}
+
+.card:first-child {
+    
+    width: 70vw; 
+    height: 60vh;
+    
+}
+
+
+.card img {
+    width: 100%; /* Make the image take the full width of the card */
+    height: 100%; /* Set the height of the image */
+    border-radius: 5px;
+    object-fit: cover; /* Prevent stretching and maintain aspect ratio */
+    
 }
 
 .card:hover {
     transform: scale(1.05);
 }
 
-.card img {
-    width: 100%; /* Make the image take the full width of the card */
-    height: 25vh; /* Set the height of the image */
+.table-card {
+    display: table;
+    width: 100%;
+}
+
+.table-cell {
+    display: table-cell;
+    padding: 10px;
+}
+
+.table-cell img {
+    width: 100%;
+    height: auto; /* Auto adjust height based on aspect ratio */
     border-radius: 5px;
 }
 
-.nav img{
+li a img {
     filter: invert(100%);
     height: 25px;
     width: 25px;
-    
 }
-a{
+
+#logo {
+    height: 50px;
+    width: 250px;
+}
+
+a {
     text-decoration: none;
     color: white;
 }
+
 .nav a:hover {
     text-decoration: none;
     color: aqua; /* Optionally, set the hover text color */
     text-decoration: underline;
-    
 }
 
-.Card-text{
-    background-color: white;
+.Card-text {
+    background-color:black;
+    font-weight: bold;
+    color: white;
 }
-  @keyframes glowAnimation {
+
+@keyframes glowAnimation {
     0% { box-shadow: 0 0 10px rgba(255, 0, 0, 0.5); }
     50% { box-shadow: 0 0 20px rgba(255, 0, 0, 0.7); }
     100% { box-shadow: 0 0 10px rgba(255, 0, 0, 0.998); }
-  }
-  
-  .glow-up-down-animation {
+}
+
+.glow-up-down-animation {
     animation: glowAnimation 1s;
-  }
-  
-  #overlay {
+}
+
+#overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     pointer-events: none; /* Allow clicks to go through the overlay */
-  }
-  
-  
+}
+
+#latestImageContainer {
+    max-width: 1200px; /* Set a max-width for better responsiveness */
+    border: 2px solid #ccc; /* Add borders to the latest image container */
+    margin: 10px; /* Add margin for better visual separation */
+    padding: 10px; /* Add padding for better visual spacing */
+}
+
+.nav li.helpline {
+    margin-left: auto; /* Push the Helpline link to the right */
+}
