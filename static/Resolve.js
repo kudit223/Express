@@ -19,6 +19,26 @@ function fetchAndDisplayAllData() {
               const newImage = document.createElement('img');
               newImage.src = cardData.imageData; // Assuming your JSON has an 'imageUrl' property
               newImage.alt = 'Card Image';
+              console.log(newImage.src);
+              //dock name
+              const newText = document.createElement('div');
+              newText.classList.add('gateName');
+              card.appendChild(newText);
+      
+              // fire saftey
+              let imageName = '';
+              for (let j = 0; j <newImage.src.length; j++) {
+                if (newImage.src[j] === '%') {
+                  j = j + 3;
+                  while (j < newImage.src.length && newImage.src[j] !== '_') {
+                    imageName += newImage.src[j];
+                    j++;
+                  }
+                  break;
+                }
+              }
+              imageName = imageName.replaceAll('%20', ' ');
+              newText.textContent = imageName;
 
               // Append the new image to the card
               card.appendChild(newImage);

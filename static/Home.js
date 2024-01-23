@@ -2,15 +2,16 @@
 
 
 const socket = io();
-
+let rcount=0;
+let ucount=0;
 socket.on('update', (data) => {
   console.log('Received update from the server:', data);
   playNewImageSound();
   playGlowAnimation();
   fetchAndDisplayImages();
-  updateResolvedCountOnHome()
-  
+  updateResolvedCountOnHome();
   updateUnreadCountonHome();
+ 
 
 });
 
@@ -90,51 +91,135 @@ function playNewImageSound() {
 
 // Fetch and display images initially
 fetchAndDisplayImages();
+//pie data
+document.addEventListener('DOMContentLoaded', function () {
+  // Fetch resolved count
+  const resolvedCountPromise = new Promise((resolve, reject) => {
+    updateResolvedCountOnHome()
+      .then(resolvedCount => resolve(resolvedCount))
+      .catch(error => reject(error));
+  });
 
-//Resolve count
-function updateResolvedCountOnHome() {
-  fetch('http://127.0.0.1:3000/Resolvedata')
-    .then(response => response.json())
-    .then(data => {
-      const resolvedCount = data.length;
-      const resolvedCountElement = document.getElementById('resolvedCount');
-      resolvedCountElement.textContent = `(${resolvedCount || 0})`;
+  // Fetch unread count
+  const unreadCountPromise = new Promise((resolve, reject) => {
+    updateUnreadCountonHome()
+      .then(unreadCount => resolve(unreadCount))
+      .catch(error => reject(error));
+  });
+
+  // Wait for both promises to resolve
+  Promise.all([resolvedCountPromise, unreadCountPromise])
+    .then(([resolvedCount, unreadCount]) => {
+      // Use resolvedCount and unreadCount to create the pie chart
+      createPieChart(resolvedCount, unreadCount);
     })
-    .catch(error => console.error('Error fetching resolved count:', error));
+    .catch(error => {
+      console.error('Error:', error);
+    });
+});
+
+
+function updateResolvedCountOnHome() {
+  return new Promise((resolve, reject) => {
+    fetch('http://127.0.0.1:3000/Resolvedata')
+      .then(response => response.json())
+      .then(data => {
+        const resolvedCount = data.length;
+        const resolvedCountElement = document.getElementById('resolvedCount');
+        resolvedCountElement.textContent = `(${resolvedCount || 0})`;
+        rcount = resolvedCount;
+        resolve(rcount);
+      })
+      .catch(error => {
+        console.error('Error fetching resolved count:', error);
+        reject(error);
+      });
+  });
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-  updateResolvedCountOnHome();
-});
+
 function updateUnreadCountonHome() {
-  fetch('http://127.0.0.1:3000/images')
-    .then(response => response.json())
-    .then(data => {
-      console.log('API Response:', data);
-
-      if (data && data.images) {
-        const unreadcount = data.images.length;
-        console.log('Unread Count:', unreadcount);
-
-        const unreadcountElement = document.getElementById('unreadcount');
-        console.log('Unread Count Element:', unreadcountElement);
-
-        if (unreadcountElement) {
-          unreadcountElement.textContent = `(${unreadcount || 0})`;
+  return new Promise((resolve, reject) => {
+    fetch('http://127.0.0.1:3000/images')
+      .then(response => response.json())
+      .then(data => {
+        if (data && data.images) {
+          let unreadcount = data.images.length;
+          ucount = unreadcount;
+          const unreadcountElement = document.getElementById('unreadcount');
+          if (unreadcountElement) {
+            unreadcount=unreadcount/4;
+            unreadcountElement.textContent = `(${unreadcount || 0})`;
+            
+            console.log("this is unread count in home",unreadcount);
+          } else {
+            console.error('Element with ID "unreadcount" not found.');
+          }
+          resolve(ucount);
         } else {
-          console.error('Element with ID "unreadcount" not found.');
+          console.error('Invalid API response format. Ensure the API returns an object with an "images" property.');
+          reject(new Error('Invalid API response format'));
         }
-      } else {
-        console.error('Invalid API response format. Ensure the API returns an object with an "images" property.');
-      }
+      })
+      .catch(error => {
+        console.error('Error fetching unread count:', error);
+        reject(error);
+      });
+  });
+}
+//pie chart
+function updateCountsAndCreatePieChart() {
+  // Fetch resolved count
+  const resolvedCountPromise = updateResolvedCountOnHome();
+
+  // Fetch unread count
+  const unreadCountPromise = updateUnreadCountonHome();
+
+  // Wait for both promises to resolve
+  Promise.all([resolvedCountPromise, unreadCountPromise])
+    .then(([resolvedCount, unreadCount]) => {
+      // Use resolvedCount and unreadCount to create the pie chart
+      console.log("this resolvecount and ureadcount",resolvedCount,unreadCount)
+      createPieChart(resolvedCount, unreadCount);
     })
-    .catch(error => console.error('Error fetching unread count:', error));
+    .catch(error => {
+      console.error('Error:', error);
+    });
+}
+
+function createPieChart(resolvedCount, unreadCount) {
+  const pieChartData = [resolvedCount,unreadCount];
+  console.log("this is resolve count in  pie chart",resolvedCount,unreadCount);
+  const targetElement = document.getElementById('pie-chart'); 
+  const svg = d3.select(targetElement)
+    .append('svg')
+    .attr('width', 200)
+    .attr('height', 200)
+    .append('g')
+    .attr('transform', 'translate(100,100)');
+
+  const pie = d3.pie();
+
+  const arc = d3.arc().innerRadius(0).outerRadius(100);
+
+  const arcs = svg.selectAll('arc')
+    .data(pie(pieChartData))
+    .enter()
+    .append('g')
+    .attr('class', 'arc');
+
+  arcs.append('path')
+    .attr('fill', (d, i) => d3.schemeCategory10[i])
+    .attr('d', arc);
 }
 
 document.addEventListener('DOMContentLoaded', function () {
   updateUnreadCountonHome();
+  updateResolvedCountOnHome();
+  updateCountsAndCreatePieChart();
+ 
 });
-
+// pie chart
 
 
 

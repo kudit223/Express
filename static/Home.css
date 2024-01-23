@@ -43,9 +43,6 @@
 
 body {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
     min-height: 100vh;
     margin-top: 60px;
     /* Adjust margin-top based on the height of your navigation bar */
@@ -57,22 +54,25 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    max-width: 1200px; /* Set a max-width for better responsiveness */
-    width: 100%; /* Full width of the viewport */
+  
     padding: 0 20px; /* Add padding to the left and right of the card container */
-    border: 2px solid #ccc; /* Add borders to the card container */
+    /* border: 2px solid #ccc; Add borders to the card container */
     margin: 10px; /* Add margin for better visual separation */
+    height: 100%;
+    width: 60vw;
 }
 
 .card {
-    border: 1px solid #ddd;
+    border: 2px solid gray;
     border-radius: 5px;
     margin: 10px;
     overflow: hidden;
     box-sizing: border-box;
-    width: calc(25% - 20px); /* Set the width of each card */
+    width: calc(25% - 25px); /* Set the width of each card */
     transition: transform 0.3s;
     box-shadow: 5px 5px 10px gray ;
+    height: 35vh;
+    padding: 5px;
     /* box-shadow: 5px 5px 10px gray inset; */
     
 }
@@ -88,8 +88,9 @@ body {
 .card img {
     width: 100%; /* Make the image take the full width of the card */
     height: 100%; /* Set the height of the image */
-    border-radius: 5px;
-    object-fit: cover; /* Prevent stretching and maintain aspect ratio */
+    border-radius: 10px;
+    object-fit: cover; 
+    padding-bottom: 40px;/* Prevent stretching and maintain aspect ratio */
     
 }
 
@@ -169,4 +170,62 @@ a {
 
 .nav li.helpline {
     margin-left: auto; /* Push the Helpline link to the right */
+}
+
+#pievaluecontainerforunread{  
+    display: flex;
+    margin: 20px;
+    
+}
+#unreadvalue{
+    height: 20px;
+    width:20px;
+    background-color: orange;
+}
+#boxdirection{
+    width: 35vw;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    border: 2px solid gray;
+    height: 40vh;
+    justify-content: space-evenly;
+    border-radius: 10px;
+    box-shadow: 10px 10px 10px gray;
+    padding: 10px;
+   
+    
+    
+}
+#boxitem{
+    width: 15vw;
+    
+}
+#pievaluecontainerforresolve
+{
+    display: flex;
+    margin: 20px;
+    /* border: 2px solid red; */
+    
+}
+#outerbox{
+    display: flex;
+    flex-direction: column;
+}
+#looker{
+    margin-top: 30px;
+    border: 2px solid gray;
+    border-radius: 10px;
+
+}
+#resolvevalue
+{
+    height: 20px;
+    width:20px;
+    background-color: blue;
+}
+#boxitem span{
+    color: white;
+    display: block;
+    margin-left: 10px;
 }

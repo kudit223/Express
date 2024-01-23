@@ -7,6 +7,7 @@ head
   style 
     include ../static/Home.css
   script(src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js') 
+  script(src="https://d3js.org/d3.v7.min.js")
   script 
     include ../static/Home.js
 body
@@ -26,6 +27,8 @@ body
         span#resolvedCount 
       li
         a(href="") HelplineNo.
+      
+
 
   #overlay 
   #cardContainer
@@ -33,7 +36,18 @@ body
   // Existing card container
   .card-container
     // Latest four images will be displayed here
-
+  #outerbox
+   #boxdirection
+     svg#pie-chart(width="200" height="200")
+     #boxitem
+       #pievaluecontainerforunread
+         #unreadvalue  
+         span Unread Case
+       #pievaluecontainerforresolve
+         #resolvevalue 
+         span Resolve Case
+   #looker
+        iframe(src="https://lookerstudio.google.com/embed/reporting/df162371-f355-40e4-8ca6-66a4e9a3739c/page/hR9nD", width="450", height="400", frameBorder="0")
 // Rest of your HTML and CSS...
 
 

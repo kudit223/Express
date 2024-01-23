@@ -6,12 +6,13 @@
  
 }
 body{
-  background-color: bisque;
+  background-color: black;
 }
 .nav{
   
   background-color: black;
   width: 100vw;
+  border-bottom: 2px solid gray;
   
 }
 .nav ul{
@@ -51,11 +52,12 @@ body{
   margin: 10px;
   width: calc(25% - 20px); /* 20px is the total margin (left + right) */
   box-sizing: border-box;
-  background-color: #fff;
+  background-color:black;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s;
   position: relative;
+
   
 }
 
@@ -65,7 +67,7 @@ body{
 
 .reason-title {
   font-size: 16px;
-  color: #333;
+  color:white;
   margin-top: 10px;
   font-weight: bold;
 }
@@ -110,4 +112,9 @@ a{
   text-decoration: none;
   color: aqua; /* Optionally, set the hover text color */
   text-decoration: underline;
+}
+.Card-text {
+  background-color:black;
+  font-weight: bold;
+  color: white;
 }

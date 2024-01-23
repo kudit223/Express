@@ -2,11 +2,10 @@ function updateResolvedCount(count) {
   const unreadcountElement = document.getElementById('unreadcount');
   unreadcountElement.textContent = `(${count})`;
   localStorage.setItem('unreadcount', count);
-  
-  
 }
 function fetchAndDisplayImage() {
   let cardCount = 0;
+  let imageCount=0;
   fetch('http://127.0.0.1:3000/images')
     .then(response => response.json())
     .then(data => {
@@ -24,6 +23,25 @@ function fetchAndDisplayImage() {
         const newImage = document.createElement('img');
         newImage.src = imageUrl;
         newImage.alt = 'Card Image';
+        //dock name
+        const newText = document.createElement('div');
+        newText.classList.add('Card-text');
+        card.appendChild(newText);
+
+        // fire saftey
+        let imageName = '';
+        for (let j = 0; j <newImage.src.length; j++) {
+          if (newImage.src[j] === '%') {
+            j = j + 3;
+            while (j < newImage.src.length && newImage.src[j] !== '_') {
+              imageName += newImage.src[j];
+              j++;
+            }
+            break;
+          }
+        }
+        imageName = imageName.replaceAll('%20', ' ');
+       newText.textContent = imageName;
 
         // Append the new image to the card
         card.appendChild(newImage);
@@ -91,8 +109,13 @@ function fetchAndDisplayImage() {
         });
         
         // Append the new card to the card container
+        
+        if(imageCount%4===0)
+        {
         cardContainer.appendChild(card);
         cardCount++;
+        }
+        imageCount++;
       });
       updateResolvedCount(cardCount);
     })
