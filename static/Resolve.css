@@ -79,6 +79,7 @@ body {
 }
 .gateName{
 color: white;
+font-weight: bold;
 }
 
 .card-text {
@@ -86,6 +87,9 @@ color: white;
   text-align: center;
   margin: 0;
   color: white;
+}
+.timeStampbox{
+  color:white;
 }
 
 .nav img {

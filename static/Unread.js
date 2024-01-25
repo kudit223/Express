@@ -27,12 +27,12 @@ function fetchAndDisplayImage() {
         const newText = document.createElement('div');
         newText.classList.add('Card-text');
         card.appendChild(newText);
-
+        
         // fire saftey
         let imageName = '';
         for (let j = 0; j <newImage.src.length; j++) {
-          if (newImage.src[j] === '%') {
-            j = j + 3;
+          if (newImage.src[j] === '_') {
+            j++;
             while (j < newImage.src.length && newImage.src[j] !== '_') {
               imageName += newImage.src[j];
               j++;
@@ -106,7 +106,9 @@ function fetchAndDisplayImage() {
           }
         
           sendCardDataToServer(imageData, inputData);
-        });
+        
+      });
+      // });
         
         // Append the new card to the card container
         
@@ -116,6 +118,7 @@ function fetchAndDisplayImage() {
         cardCount++;
         }
         imageCount++;
+        
       });
       updateResolvedCount(cardCount);
     })

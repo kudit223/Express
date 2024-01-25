@@ -56,7 +56,7 @@ body {
     justify-content: space-around;
   
     padding: 0 20px; /* Add padding to the left and right of the card container */
-    /* border: 2px solid #ccc; Add borders to the card container */
+    /* border: 2px solid #ccc;Add borders to the card container */
     margin: 10px; /* Add margin for better visual separation */
     height: 100%;
     width: 60vw;
@@ -211,6 +211,7 @@ a {
 #outerbox{
     display: flex;
     flex-direction: column;
+    
 }
 #looker{
     margin-top: 30px;

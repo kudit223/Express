@@ -11,6 +11,7 @@ socket.on('update', (data) => {
   fetchAndDisplayImages();
   updateResolvedCountOnHome();
   updateUnreadCountonHome();
+  updateCountsAndCreatePieChart();
  
 
 });
@@ -25,9 +26,10 @@ function fetchAndDisplayImages() {
       const cardContainer = document.getElementById('cardContainer');
       cardContainer.innerHTML = ''; // Clear existing cards
 
-      // Iterate through images in reverse order to display the latest one at the top
-      for (let i = data.images.length - 1; i >= 0; i--) {
-        const imageUrl = data.images[i];
+     
+      for (let i = data.images.length-1; i >=0; i--) {
+       const imageUrl = data.images[i];
+       
 
         const card = document.createElement('div');
         card.classList.add('card');
@@ -40,8 +42,8 @@ function fetchAndDisplayImages() {
         // fire saftey
         let imageName = '';
         for (let j = 0; j < imageUrl.length; j++) {
-          if (imageUrl[j] === '%') {
-            j = j + 3;
+          if (imageUrl[j] === '_') {
+            j++;
             while (j < imageUrl.length && imageUrl[j] !== '_') {
               imageName += imageUrl[j];
               j++;
@@ -51,7 +53,6 @@ function fetchAndDisplayImages() {
         }
         imageName = imageName.replaceAll('%20', ' ');
         newText.textContent = imageName;
-
         // Create an image element for the card
         const newImage = document.createElement('img');
         newImage.src = imageUrl;
