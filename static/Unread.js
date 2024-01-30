@@ -1,3 +1,5 @@
+const deletedCards = JSON.parse(localStorage.getItem('deletedCards')) || [];
+const resolvedCards = JSON.parse(localStorage.getItem('resolvedCards')) || [];
 function updateResolvedCount(count) {
   const unreadcountElement = document.getElementById('unreadcount');
   unreadcountElement.textContent = `(${count})`;
@@ -5,8 +7,10 @@ function updateResolvedCount(count) {
 }
 function fetchAndDisplayImage() {
   let cardCount = 0;
-  let imageCount=0;
-  fetch('http://127.0.0.1:3000/images')
+  
+  // checking local if card is deleted
+
+  fetch('http://127.0.0.1:3000/unreadImages')
     .then(response => response.json())
     .then(data => {
       const cardContainer = document.getElementById('imageContainer');
@@ -14,8 +18,18 @@ function fetchAndDisplayImage() {
       // Clear existing cards
       cardContainer.innerHTML = '';
 
+
       // Create a new card for each image
-      data.images.forEach(imageUrl => {
+     // data.images.forEach(imageUrl => {
+      data.images.forEach((imageUrl, index) => {
+        // Skip rendering resolved cards
+        // console.log(index);
+        if (resolvedCards.includes(imageUrl) || deletedCards.includes(imageUrl)) {
+          // console.log('resolve cards',resolvedCards);
+          // console.log('deleted cards',deletedCards);
+          //onsole.log('working fine',imageUrl)
+          return;
+        }
         const card = document.createElement('div');
         card.classList.add('card');
 
@@ -23,6 +37,7 @@ function fetchAndDisplayImage() {
         const newImage = document.createElement('img');
         newImage.src = imageUrl;
         newImage.alt = 'Card Image';
+        console.log(imageUrl)
         //dock name
         const newText = document.createElement('div');
         newText.classList.add('Card-text');
@@ -104,20 +119,21 @@ function fetchAndDisplayImage() {
             })
             .catch(error => console.error('Error sending card data to the server:', error));
           }
+         
         
           sendCardDataToServer(imageData, inputData);
-        
+          resolvedCards.push(imageUrl);
+          localStorage.setItem('resolvedCards', JSON.stringify(resolvedCards));
+           // Skip other images with the same filename
+                
       });
+     
       // });
         
         // Append the new card to the card container
         
-        if(imageCount%4===0)
-        {
         cardContainer.appendChild(card);
         cardCount++;
-        }
-        imageCount++;
         
       });
       updateResolvedCount(cardCount);
@@ -127,6 +143,8 @@ function fetchAndDisplayImage() {
 
 // Fetch and display images initially
 fetchAndDisplayImage();
+
+
 
 
 

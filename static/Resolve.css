@@ -6,12 +6,16 @@
 
 body {
   background-color:black;
-  width: min-content;
+  
 }
 
 .nav {
   background-color: black;
   border-bottom:2px solid white;
+  position: fixed;
+  z-index: 2;
+  
+  
 }
 
 .nav ul {
@@ -38,6 +42,8 @@ body {
   flex-wrap: wrap;
   justify-content: space-around;
   margin: 0 20px;
+  padding: 60px 0;
+  
   
 }
 
@@ -51,10 +57,9 @@ body {
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s;
-  cursor: pointer;
-  margin: 10px 1px;
+
   padding:15px;
-  margin: 10px;
+  margin:  10px;
   
   
 }
@@ -65,8 +70,9 @@ body {
 
 .card img {
   width: 100%;
-  height: auto;
-  display: block;
+  height: 20vh;
+  object-fit: cover;
+    
 }
 
 .card-heading {

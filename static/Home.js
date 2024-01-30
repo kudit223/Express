@@ -141,7 +141,7 @@ function updateResolvedCountOnHome() {
 
 function updateUnreadCountonHome() {
   return new Promise((resolve, reject) => {
-    fetch('http://127.0.0.1:3000/images')
+    fetch('http://127.0.0.1:3000/unreadImages')
       .then(response => response.json())
       .then(data => {
         if (data && data.images) {
@@ -149,7 +149,7 @@ function updateUnreadCountonHome() {
           ucount = unreadcount;
           const unreadcountElement = document.getElementById('unreadcount');
           if (unreadcountElement) {
-            unreadcount=unreadcount/4;
+            unreadcount=unreadcount-rcount;
             unreadcountElement.textContent = `(${unreadcount || 0})`;
             
             console.log("this is unread count in home",unreadcount);
@@ -189,7 +189,7 @@ function updateCountsAndCreatePieChart() {
 }
 
 function createPieChart(resolvedCount, unreadCount) {
-  const pieChartData = [resolvedCount,unreadCount];
+  const pieChartData = [resolvedCount,unreadCount-rcount];
   console.log("this is resolve count in  pie chart",resolvedCount,unreadCount);
   const targetElement = document.getElementById('pie-chart'); 
   const svg = d3.select(targetElement)

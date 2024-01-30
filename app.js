@@ -19,10 +19,12 @@ const storage = new Storage({
     keyFilename: 'mykey.json', 
   });
   //const bucketName = 'super_nova'; 
-  const bucketName='delhivery_123'
+  const bucketName='testing_0011'
   const bucket = storage.bucket(bucketName);
   const uploadBucketname='super_navo_data'
   const uploadBucket=storage.bucket(uploadBucketname)
+  const unreadBucketName='testing_0022';
+  const unreadBucket=storage.bucket(unreadBucketName);
 
   //multer stuff
   const multer = Multer({
@@ -59,6 +61,23 @@ app.get('/images', async (req, res) => {
       res.status(500).json({ error: 'Error listing images.' });
     }
   });
+  //new folder images
+  app.get('/unreadImages',async(req,res)=>{
+    try{
+      const[files]=await unreadBucket.getFiles();
+      const oneimageLinks=files.map((file)=>{
+        const  oneimageName=file.name;
+      //  console.log(oneimageName);
+        return `http://127.0.0.1:${port}/image/${encodeURIComponent(oneimageName)}`;
+      });
+      res.json({images:oneimageLinks});
+    }
+    catch(error)
+    {
+      console.error('Error listing images:',error);
+      res.status(500).json({error:'Error listing images'});
+    }
+  })
   app.get('/image/:imageName', async (req, res) => {
     try {
       const imageName = req.params.imageName;
